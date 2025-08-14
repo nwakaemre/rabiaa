@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Kalp Kutusu ❤️</title>
+    <meta name="theme-color" content="#ff6ea1" />
+    <style>
+        :root {
+            --bg1: #ffd1dc;
+            --bg2: #ffe6f0;
+            --ink: #3b3b3b;
+            --love: #ff3d7a;
+            --love2: #ff7aa2;
+            --glass: rgba(255,255,255,.18);
+            --glass-b: rgba(255,255,255,.35);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html, body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+            color: var(--ink);
+            background: linear-gradient(115deg,var(--bg1),var(--bg2));
+            background-size: 200% 200%;
+            animation: bgMove 14s ease-in-out infinite;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes bgMove {
+            0%,100% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+        }
+
+        /* ---- FOTOĞRAF KUTUSU (ortalanmış, küçük ve düzgün) ---- */
+        .bg {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(115deg,var(--bg1),var(--bg2));
+            opacity: 0;
+            z-index: 0; /* başta gizli */
+        }
+
+        .open-bg {
+            opacity: 1;
+        }
+        /* bir anda görünsün (transition yok) */
+
+        .bg .photo {
+            max-width: 78vw; /* genişlik sınırı */
+            max-height: 78vh; /* yükseklik sınırı */
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 10px 34px rgba(0,0,0,.35);
+            border: 4px solid #fff;
+            background: #000; /* yüklenirken siyah arka plan */
+        }
+
+        /* ---- ÜST MESAJ (fotoğraf üstünde) ---- */
+        .overlay-msg {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            pointer-events: none;
+            font-size: clamp(22px,6.8vw,40px);
+            color: #ffffff;
+            text-shadow: 0 2px 16px rgba(0,0,0,.55);
+            opacity: 0;
+            z-index: 3;
+            transition: opacity .25s ease; /* hızlı belirme */
+            padding: 10vh 4vw;
+            text-align: center;
+        }
+
+        .overlay-show {
+            opacity: 1;
+        }
+
+        /* ---- Başlangıç kartı (kalp + buton) ---- */
+        .wrap {
+            width: min(680px,94vw);
+            text-align: center;
+            padding: 18px;
+            position: relative;
+            z-index: 2
+        }
+
+        .card {
+            position: relative;
+            padding: clamp(18px,4vw,28px);
+            border-radius: 22px;
+            background: var(--glass);
+            border: 1px solid var(--glass-b);
+            backdrop-filter: blur(14px) saturate(120%);
+            -webkit-backdrop-filter: blur(14px) saturate(120%);
+            box-shadow: 0 12px 30px rgba(0,0,0,.15);
+            animation: fade .6s ease both;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: none
+            }
+        }
+
+        /* Kalp kutu */
+        .heart-box {
+            width: min(320px,72vw);
+            height: min(280px,63vw);
+            margin: 10px auto 16px;
+            position: relative;
+            perspective: 900px;
+        }
+
+        .half {
+            position: absolute;
+            inset: 0;
+            display: block;
+            transform-origin: center;
+            transition: transform .5s ease;
+        }
+
+        .left, .right {
+            position: absolute;
+            top: 18%;
+            width: 50%;
+            height: 60%;
+            background: linear-gradient(135deg,var(--love),var(--love2));
+        }
+
+        .left {
+            left: 12%;
+            border-top-left-radius: 50% 60%;
+            border-bottom-left-radius: 50% 40%;
+            transform: rotate(-45deg) translate(-10%, -4%);
+        }
+
+            .left::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: -55%;
+                border-radius: 50%;
+                background: linear-gradient(135deg,var(--love),var(--love2));
+            }
+
+        .right {
+            right: 12%;
+            border-top-right-radius: 50% 60%;
+            border-bottom-right-radius: 50% 40%;
+            transform: rotate(45deg) translate(10%, -4%);
+        }
+
+            .right::before {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                right: 0;
+                top: -55%;
+                border-radius: 50%;
+                background: linear-gradient(135deg,var(--love),var(--love2));
+            }
+
+        .shine {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border-radius: 24px;
+            background: radial-gradient(120px 80px at 60% 10%, rgba(255,255,255,.35), transparent 60%), radial-gradient(100px 60px at 20% 80%, rgba(255,255,255,.18), transparent 60%);
+            filter: blur(4px);
+        }
+
+        /* Açılınca iki yarım kalp ayrılıyor (görsel efekt) */
+        .open .left {
+            transform: translate(-55%, -6%) rotate(-75deg)
+        }
+
+        .open .right {
+            transform: translate(55%, -6%) rotate(75deg)
+        }
+
+        /* Buton */
+        .btn {
+            margin-top: 14px;
+            border: 0;
+            border-radius: 16px;
+            cursor: pointer;
+            color: #0b2545;
+            background: linear-gradient(135deg,#ff6ea1,#ff3d7a);
+            padding: 14px 22px;
+            font-size: clamp(15px,4.6vw,18px);
+            box-shadow: 0 10px 22px rgba(0,0,0,.2);
+        }
+
+            .btn:active {
+                transform: scale(.98)
+            }
+
+        /* Balon/kalp partikülleri */
+        .p {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            will-change: transform,opacity;
+            font-size: 18px;
+            text-shadow: 0 2px 6px rgba(0,0,0,.2);
+            z-index: 3
+        }
+    </style>
+</head>
+<body>
+    <!-- Fotoğraf kutusu -->
+    <div class="bg" id="bg">
+        <img class="photo" id="photo" src="./arkaplan.jpeg" alt="Arka Plan">
+    </div>
+
+    <!-- Üst mesaj -->
+    <div id="overlay" class="overlay-msg">Seni Seviyorum 💖</div>
+
+    <!-- Başlangıç kartı -->
+    <div class="wrap">
+        <div class="card" id="card">
+            <div class="heart-box" id="box">
+                <div class="half left"></div>
+                <div class="half right"></div>
+                <div class="shine"></div>
+            </div>
+            <button id="toggle" class="btn">Kalbi Aç ❤️</button>
+        </div>
+    </div>
+
+    <script>
+        const box = document.getElementById('box');
+        const btn = document.getElementById('toggle');
+        const bg = document.getElementById('bg');
+        const card = document.getElementById('card');
+        const overlay = document.getElementById('overlay');
+        const photo = document.getElementById('photo');
+
+        let opened = false, rainTimer;
+
+        // Görsel yüklendiyse kutu net dursun; yüklenmediyse yine de tıklamada görünür
+        photo.addEventListener('error', () => console.warn('arkaplan.jpeg bulunamadı — dosya adı/uzantıyı kontrol et.'));
+
+        btn.addEventListener('click', () => {
+            if (opened) return;
+            opened = true;
+
+            // 1) Fotoğrafı BİR ANDA göster
+            bg.classList.add('open-bg');
+
+            // 2) Kalbi görsel efektle aç
+            box.classList.add('open');
+
+            // 3) Üst yazıyı göster
+            overlay.classList.add('overlay-show');
+
+            // 4) Balonlar uçsun
+            startBalloons();
+
+            // 5) Kalp ve butonu HEMEN kaldır (ekranda engel kalmasın)
+            card.remove();
+        });
+
+        // Balon/kalp parçacıkları
+        function spawn() {
+            const el = document.createElement('div');
+            el.className = 'p';
+            const pool = ['🎈', '💖', '💗', '💞', '💘'];
+            el.textContent = pool[Math.floor(Math.random() * pool.length)];
+
+            const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            const x = Math.random() * vw;
+            const size = 20 + Math.random() * 30;
+            const drift = (Math.random() * 80) - 40;
+            const duration = 2500 + Math.random() * 2500;
+
+            el.style.left = x + 'px';
+            el.style.top = (vh + 30) + 'px';
+            el.style.fontSize = size + 'px';
+            el.style.opacity = '0';
+            document.body.appendChild(el);
+
+            const start = performance.now();
+            const startY = vh + 30;
+            const endY = vh * 0.18 + Math.random() * vh * 0.26;
+
+            (function anim(t) {
+                const now = t || performance.now();
+                const p = Math.min(1, (now - start) / duration);
+                const ease = 1 - Math.pow(1 - p, 3);
+                const y = startY - (startY - endY) * ease;
+                const xOff = Math.sin(ease * 6 + (x % 13)) * 12 + (drift * ease);
+                el.style.transform = `translate(${xOff}px, ${y - startY}px)`;
+                el.style.opacity = (p < .1 ? p * 10 : (1 - p) * 1.2);
+                if (p < 1) requestAnimationFrame(anim); else el.remove();
+            })();
+        }
+
+        function startBalloons() {
+            for (let i = 0; i < 28; i++) setTimeout(spawn, i * 45); // ilk patlama
+            rainTimer = setInterval(spawn, 140);
+            setTimeout(() => stopBalloons(), 9000);
+        }
+        function stopBalloons() {
+            if (rainTimer) clearInterval(rainTimer);
+            rainTimer = null;
+        }
+    </script>
+</body>
+</html>
